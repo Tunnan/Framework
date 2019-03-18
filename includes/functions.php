@@ -10,10 +10,3 @@ function debug($var)
   
   echo "<div style='color:#333333;font-family:monospace;font-size:12px;font-weight:bold;border-bottom:1px #ccc solid;padding:10px 0;'>$output</div>";
 }
-
-// Include a given view
-function view($path)
-{
-  list($dir, $file) = explode('.', $path);
-  include ROOT . '/app/views/' . $dir . '/' . $file . '.php';
-}

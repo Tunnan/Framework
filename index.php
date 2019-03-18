@@ -7,6 +7,7 @@ define('ROOT', realpath(dirname(__FILE__)));
 include ROOT . '/includes/functions.php';
 include ROOT . '/includes/csrf.php';
 include ROOT . '/includes/router.php';
+include ROOT . '/includes/view.php';
 include ROOT . '/includes/app.php';
 
 // Include the routes, storing them in $router
