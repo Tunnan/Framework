@@ -9,7 +9,7 @@ if (!isset($_SESSION['token']))
 // Generate a CSRF token input field
 function csrf()
 {
-  return '<input type="text" name="csrf" value="'. $_SESSION['token'] . '"/>';
+  return '<input type="hidden" name="csrf" value="'. $_SESSION['token'] . '"/>';
 }
 
 // Verify the CSRF token with the value 

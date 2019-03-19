@@ -1,0 +1,10 @@
+{
+    "name": "tunnan/framework",
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "Tunnan\\Framework\\App\\Controllers\\": "app/controllers/",
+        "Tunnan\\Framework\\App\\Models\\": "app/models/"
+      }
+    }
+}

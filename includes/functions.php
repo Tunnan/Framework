@@ -10,3 +10,9 @@ function debug($var)
   
   echo "<div style='color:#333333;font-family:monospace;font-size:12px;font-weight:bold;border-bottom:1px #ccc solid;padding:10px 0;'>$output</div>";
 }
+
+// Redirect to another view
+function redirect($path)
+{
+  header('Location: /' . $path);
+}

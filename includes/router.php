@@ -1,5 +1,7 @@
 <?php
 
+namespace Tunnan\Framework\Includes;
+
 class Router
 {
   private $routes;
@@ -34,15 +36,13 @@ class Router
     $server_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
     $server_uri    = filter_input(INPUT_SERVER, 'REQUEST_URI');
 
-    debug($this->routes);
-
     foreach ($this->routes[$server_method] as $path => $callback)
     {
       // Reformat the path into proper regex
       $path = preg_replace(
-        ['/\//', '/\{(.*?):int\}/', '/\{(.*?):string\}/'],
+        ['/\//', '/\{:int\}/', '/\{:string\}/'],
         ['\\/', '([0-9]+)', '([A-Za-z0-9\-\_]+)'], $path);
-      
+
       // Match the routes path with the server URI
       if (preg_match('/^\/'. $path . '$/i', $server_uri, $matches))
       {
@@ -62,15 +62,15 @@ class Router
     // Check if the callback is callable ..
     if (is_callable($callback))
     {
-      call_user_func_array($callback, $matches);
+      $callback(... $matches);
     }
     // .. otherwise assume it's a string
     else
     {
       list($class, $method) = explode('@', $callback);
 
-      include_once ROOT . '/app/controllers/' . $class . '.php';
-      (new $class)->$method(... $matches);
+      $c_inst = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
+      (new $c_inst)->$method(... $matches);
     }
   }
 

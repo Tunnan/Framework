@@ -1,5 +1,7 @@
 <?php
 
+namespace Tunnan\Framework\Includes;
+
 class View
 {
   private $template = 'default';
@@ -20,8 +22,8 @@ class View
     return $this;
   }
 
-  // Include the template, which containts
-  // $this->view
+  // Include the template, which 
+  // contains $this->view
   public function __destruct()
   {
     include ROOT . '/app/templates/' . $this->template . '.php';
