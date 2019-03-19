@@ -2,7 +2,7 @@
 # Also, don't forget to to add this line
 # 127.0.0.1	framework.test
 # to your hosts file and change it to match your setup
-<VirtualHost *:80>
+<VirtualHost framework.test:80>
     DocumentRoot "D:/www/framework"
     ServerName www.framework.test
     ServerAlias framework.test
