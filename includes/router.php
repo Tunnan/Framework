@@ -24,10 +24,10 @@ class Router
     $this->add_route('GET',  $path,                       $callback . '@index');    // Index
     $this->add_route('GET',  $path . '/create',           $callback . '@create');   // Create
     $this->add_route('POST', $path,                       $callback . '@store');    // Store
-    $this->add_route('GET',  $path . '/{id:int}',         $callback . '@show');     // Show
-    $this->add_route('GET',  $path . '/{id:int}/edit',    $callback . '@edit');     // Edit
-    $this->add_route('POST', $path . '/{id:int}/update',  $callback . '@update');   // Update
-    $this->add_route('POST', $path . '/{id:int}/destroy', $callback . '@destroy');  // Destroy
+    $this->add_route('GET',  $path . '/{:int}',         $callback . '@show');     // Show
+    $this->add_route('GET',  $path . '/{:int}/edit',    $callback . '@edit');     // Edit
+    $this->add_route('POST', $path . '/{:int}/update',  $callback . '@update');   // Update
+    $this->add_route('POST', $path . '/{:int}/destroy', $callback . '@destroy');  // Destroy
   }
 
   // Try to find a matching route
