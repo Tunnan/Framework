@@ -16,11 +16,25 @@ class Router
     $this->add_route('POST', $path, $callback);
   }
 
+  // Add a resource
+  public function resource($path, $callback)
+  {
+    $this->add_route('GET',  $path,                       $callback . '@index');    // Index
+    $this->add_route('GET',  $path . '/create',           $callback . '@create');   // Create
+    $this->add_route('POST', $path,                       $callback . '@store');    // Store
+    $this->add_route('GET',  $path . '/{id:int}',         $callback . '@show');     // Show
+    $this->add_route('GET',  $path . '/{id:int}/edit',    $callback . '@edit');     // Edit
+    $this->add_route('POST', $path . '/{id:int}/update',  $callback . '@update');   // Update
+    $this->add_route('POST', $path . '/{id:int}/destroy', $callback . '@destroy');  // Destroy
+  }
+
   // Try to find a matching route
   public function match()
   {
     $server_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
     $server_uri    = filter_input(INPUT_SERVER, 'REQUEST_URI');
+
+    debug($this->routes);
 
     foreach ($this->routes[$server_method] as $path => $callback)
     {
@@ -33,7 +47,7 @@ class Router
       if (preg_match('/^\/'. $path . '$/i', $server_uri, $matches))
       {
         $this->dispatch($matches, $callback);
-        break;
+        return true;
       }
     }
 
@@ -54,8 +68,9 @@ class Router
     else
     {
       list($class, $method) = explode('@', $callback);
+
       include_once ROOT . '/app/controllers/' . $class . '.php';
-      call_user_func_array([$class, $method], $matches);
+      (new $class)->$method(... $matches);
     }
   }
 
