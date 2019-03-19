@@ -17,15 +17,13 @@ class Model
   public static function get()
   {
     $h = self::$connection->prepare("SELECT id, created_at, username FROM users");
-    $h->execute();
-    return $h->fetchAll();
+    return $h->execute() ? $h->fetchAll() : $h->errorInfo();
   }
 
   // Find a record by id
   public static function find($id)
   {
     $h = self::$connection->prepare("SELECT id, created_at, username FROM users WHERE id = :id");
-    $h->execute([':id' => $id]);
-    return $h->fetch();
+    return $h->execute([':id' => $id]) ? $h->fetch() : $h->errorInfo();
   }
 }

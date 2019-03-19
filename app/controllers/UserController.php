@@ -7,11 +7,19 @@ use Tunnan\Framework\App\Models\User;
 
 class UserController
 {
+  // Constructor with middleware authentication
+  public function __construct()
+  {
+    // todo implement later
+    //$this->middleware('auth', ['except' => ['show']]);
+  }
+
   // Index
   public function index()
   {
-    debug(User::get());
-    //return new View('users.index');
+    return new View('users.index', [
+      'users' => User::get()
+    ]);
   }
 
   // Create
@@ -29,12 +37,30 @@ class UserController
   // Show
   public function show($id)
   {
-    debug('Hello ' . $id);
+    debug(User::find($id));
   }
   
   // Edit
+  public function edit($id)
+  {
+    return new View('users.edit', [
+      'user' => User::find($id)
+    ]);
+  }
   
   // Update
+  public function update($id)
+  {
+    User::update([
+      'id' => $id, 'username' => $_POST['username']
+    ]);
+
+    redirect('users/' . $id);
+  }
   
   // Destroy
+  public function destroy($id)
+  {
+    debug('Destroy');
+  }
 }

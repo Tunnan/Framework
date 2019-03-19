@@ -21,9 +21,9 @@ class Router
   // Add a resource
   public function resource($path, $callback)
   {
-    $this->add_route('GET',  $path,                       $callback . '@index');    // Index
-    $this->add_route('GET',  $path . '/create',           $callback . '@create');   // Create
-    $this->add_route('POST', $path,                       $callback . '@store');    // Store
+    $this->add_route('GET',  $path,                     $callback . '@index');    // Index
+    $this->add_route('GET',  $path . '/create',         $callback . '@create');   // Create
+    $this->add_route('POST', $path,                     $callback . '@store');    // Store
     $this->add_route('GET',  $path . '/{:int}',         $callback . '@show');     // Show
     $this->add_route('GET',  $path . '/{:int}/edit',    $callback . '@edit');     // Edit
     $this->add_route('POST', $path . '/{:int}/update',  $callback . '@update');   // Update
