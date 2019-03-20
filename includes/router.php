@@ -69,8 +69,23 @@ class Router
     {
       list($class, $method) = explode('@', $callback);
 
-      $c = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
-      (new $c)->$method(... $matches);
+      $c_name = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
+      $c_inst = new $c_name;
+
+      // Check user privileges
+      foreach ($c_inst->auth as $hook => $methods)
+      {
+        if (in_array($method, $methods))
+        {
+          if ($hook == 'logged_in') { Auth::logged_in() ?: die('You need to be logged in to access this page'); }
+          else if ($hook == 'is_admin') { Auth::is_admin() ?: die('You need to be an admin to access this page'); }
+        }
+      }
+
+      $c_inst->$method(... $matches);
+
+      //$c_name = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
+      //(new $c_name)->$method(... $matches);
     }
   }
 

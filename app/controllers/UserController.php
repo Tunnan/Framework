@@ -8,6 +8,13 @@ use Tunnan\Framework\App\Models\User;
 
 class UserController
 {
+  // Set some hooks
+  public function __construct()
+  {
+    $this->auth['logged_in'] = ['edit', 'create'];
+    $this->auth['is_admin'] = ['create'];
+  }
+
   // Index
   public function index()
   {
@@ -19,18 +26,12 @@ class UserController
   // Create
   public function create()
   {
-    Auth::logged_in() ?: die('You need to be logged in to access this page');
-    Auth::is_admin() ?: die('You need to be an admin to access this page');
-
     return new View('users.create');
   }
 
   // Store
   public function store()
   {
-    Auth::logged_in() ?: die('You need to be logged in to access this page');
-    Auth::is_admin() ?: die('You need to be an admin to access this page');
-
     User::create($_POST['name']) ? redirect('users') : debug('Something went wrong. Unique field?');
   }
   
@@ -48,8 +49,7 @@ class UserController
   // Edit
   public function edit($id)
   {
-    Auth::logged_in() ?: die('You need to be logged in to access this page');
-    Auth::check($id) ?: die('You cannot edit other users data');
+    Auth::check($id) ?: die('You are not allowed to edit other users');
 
     return new View('users.edit', [
       'user' => User::find($id)
@@ -59,9 +59,6 @@ class UserController
   // Update
   public function update($id)
   {
-    Auth::logged_in() ?: die('You need to be logged in to access this page');
-    Auth::check($id) ?: die('You cannot update other users data');
-
     User::update([
       'id' => $id, 'username' => $_POST['username']
     ]);
@@ -72,9 +69,6 @@ class UserController
   // Destroy
   public function destroy($id)
   {
-    Auth::logged_in() ?: die('You need to be logged in to access this page');
-    Auth::check($id) ?: die('You cannot destroy other users data');
-    
     debug('Destroy');
   }
 
