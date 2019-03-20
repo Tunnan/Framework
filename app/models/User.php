@@ -19,4 +19,7 @@ class User extends Model
     $h = self::$connection->prepare('UPDATE users SET username = :username WHERE id = :id');
     return $h->execute($data) ? true : $h->errorInfo();
   }
+
+  // todo
+  // override the get and find in production, to ommit the password field
 }

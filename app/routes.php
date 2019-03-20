@@ -11,3 +11,5 @@ $router = new Tunnan\Framework\Includes\Router();
 
 $router->get('', function() { debug('Welcome'); });
 $router->resource('users', 'UserController');
+$router->get('users/login', 'UserController@login');
+$router->get('users/logout', 'UserController@logout');

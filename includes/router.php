@@ -69,8 +69,8 @@ class Router
     {
       list($class, $method) = explode('@', $callback);
 
-      $c_inst = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
-      (new $c_inst)->$method(... $matches);
+      $c = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
+      (new $c)->$method(... $matches);
     }
   }
 
