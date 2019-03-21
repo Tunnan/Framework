@@ -4,6 +4,7 @@ namespace Tunnan\Framework\App\Controllers;
 
 use Tunnan\Framework\Includes\View;
 use Tunnan\Framework\Includes\Auth;
+use Tunnan\Framework\Includes\Registry;
 use Tunnan\Framework\App\Models\User;
 
 class UserController
@@ -11,8 +12,7 @@ class UserController
   // Set some hooks
   public function __construct()
   {
-    $this->auth['logged_in'] = ['edit', 'create'];
-    $this->auth['is_admin'] = ['create'];
+    Registry::set('auth', ['edit']);
   }
 
   // Index
@@ -26,6 +26,7 @@ class UserController
   // Create
   public function create()
   {
+    Auth::is_admin() ?: exit('You need to have admin privileges to access this page');
     return new View('users.create');
   }
 
@@ -49,7 +50,7 @@ class UserController
   // Edit
   public function edit($id)
   {
-    Auth::check($id) ?: die('You are not allowed to edit other users');
+    Auth::check($id) ?: exit('You are not allowed to edit other users');
 
     return new View('users.edit', [
       'user' => User::find($id)

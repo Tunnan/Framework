@@ -34,7 +34,7 @@ class Router
   public function match()
   {
     $server_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
-    $server_uri    = filter_input(INPUT_SERVER, 'REQUEST_URI');
+    $server_uri    = rtrim(filter_input(INPUT_SERVER, 'REQUEST_URI'), '/');
 
     foreach ($this->routes[$server_method] as $path => $callback)
     {
@@ -57,36 +57,24 @@ class Router
   // Call the found matching callback
   private function dispatch($matches, $callback)
   {
-    array_shift($matches);
-
-    // Check if the callback is callable ..
     if (is_callable($callback))
     {
-      $callback(... $matches);
+      exit('The callback is required to be a string');
     }
-    // .. otherwise assume it's a string
-    else
+    
+    array_shift($matches);
+    list($class, $method) = explode('@', $callback);
+
+    $c_name = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
+    $c_inst = new $c_name;
+
+    // Check user privileges
+    if (Registry::get('auth') !== null && in_array($method, Registry::get('auth')))
     {
-      list($class, $method) = explode('@', $callback);
-
-      $c_name = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
-      $c_inst = new $c_name;
-
-      // Check user privileges
-      foreach ($c_inst->auth as $hook => $methods)
-      {
-        if (in_array($method, $methods))
-        {
-          if ($hook == 'logged_in') { Auth::logged_in() ?: die('You need to be logged in to access this page'); }
-          else if ($hook == 'is_admin') { Auth::is_admin() ?: die('You need to be an admin to access this page'); }
-        }
-      }
-
-      $c_inst->$method(... $matches);
-
-      //$c_name = 'Tunnan\\Framework\\App\\Controllers\\' . $class;
-      //(new $c_name)->$method(... $matches);
+      Auth::logged_in() ?: exit('You need to be logged in to access this page');
     }
+
+    $c_inst->$method(... $matches);
   }
 
   // Add a route
