@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>Framework</title>
+  <link rel="stylesheet" href="/public/css/styles.css?<?= time() ?>">
 </head>
 <body>
   <?= $this->outlet ?>

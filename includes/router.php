@@ -71,7 +71,9 @@ class Router
     // Check user privileges
     if (Registry::get('auth') !== null && in_array($method, Registry::get('auth')))
     {
-      Auth::logged_in() ?: exit('You need to be logged in to access this page');
+      if (!Auth::logged_in()) {
+        exit('You need to be logged in to access this page');
+      }
     }
 
     $c_inst->$method(... $matches);

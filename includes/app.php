@@ -24,5 +24,8 @@ class App
     {
       debug('Route not found');
     }
+
+    // Clear all flash messages
+    Flash::clear();
   }
 }

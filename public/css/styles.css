@@ -1,0 +1,19 @@
+body {
+  font-family: sans-serif;
+  font-size: 13px;
+  color: #333333;
+  letter-spacing: .5px;
+}
+
+p.flash {
+  color: #ffffff;
+  padding: 9px 8px;
+}
+
+p.success {
+  background-color: #20BF6B;
+}
+
+p.error {
+  background-color: #CD3F37; 
+}

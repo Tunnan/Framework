@@ -5,6 +5,7 @@ namespace Tunnan\Framework\App\Controllers;
 use Tunnan\Framework\Includes\View;
 use Tunnan\Framework\Includes\Auth;
 use Tunnan\Framework\Includes\Registry;
+use Tunnan\Framework\Includes\Flash;
 use Tunnan\Framework\App\Models\User;
 
 class UserController
@@ -19,7 +20,8 @@ class UserController
   public function index()
   {
     return new View('users.index', [
-      'users' => User::get()
+      'users' => User::get(),
+      'messages' => Flash::get()
     ]);
   }
 
@@ -79,6 +81,7 @@ class UserController
     // Temporary login
     $_SESSION['uid'] = 1;
 
+    Flash::set('success', 'You have been loggd in');
     redirect('users');
   }
 
@@ -86,11 +89,12 @@ class UserController
   public function logout()
   {
     // Temporary logout
-    if (isset($_SESSION['uid']))
+    if (isset($_SESSION[SESSION_USER_ID]))
     {
-      unset($_SESSION['uid']);
+      unset($_SESSION[SESSION_USER_ID]);
     }
 
+    Flash::set('success', 'You have been logged out');
     redirect('users');
   }
 }
