@@ -8,6 +8,8 @@ $router = new Tunnan\Framework\Includes\Router();
 // $router->get('users/{:int}', 'UsersController@view');
 // $router->resource('users', 'UserController');
 
+$router->get('', 'WelcomeController@index');
+
 $router->resource('users', 'UserController');
 $router->get('users/login', 'UserController@login');
 $router->get('users/logout', 'UserController@logout');

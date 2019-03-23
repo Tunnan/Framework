@@ -30,7 +30,12 @@ class Router {
   // Try to find a matching route
   public function match() {
     $server_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
-    $server_uri    = rtrim(filter_input(INPUT_SERVER, 'REQUEST_URI'), '/');
+    $server_uri    = filter_input(INPUT_SERVER, 'REQUEST_URI');
+
+    // We don't want to trim the slash from the welcome page
+    if ($server_uri != '/') {
+      $server_uri = rtrim($server_uri);
+    }
 
     foreach ($this->routes[$server_method] as $path => $callback) {
       // Reformat the path into proper regex
