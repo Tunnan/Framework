@@ -2,8 +2,8 @@
 
 session_start();
 
+// Define our root
 define('ROOT', realpath(dirname(__FILE__)));
-
 
 // Define the names of our sessions
 define('SESSION_USER_ID',   'uid');
@@ -12,8 +12,7 @@ define('SESSION_MESSAGES',  'messages');
 // todo define the environment, for development or production
 
 // Generate a CSRF token
-if (!isset($_SESSION['token']))
-{
+if (!isset($_SESSION['token'])) {
   $_SESSION['token'] = base64_encode(openssl_random_pseudo_bytes(32));
 }
 

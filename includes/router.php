@@ -2,25 +2,22 @@
 
 namespace Tunnan\Framework\Includes;
 
-class Router
-{
+class Router {
+  // An array of all the stored routes
   private $routes;
 
   // Add GET routes
-  public function get($path, $callback)
-  {
+  public function get($path, $callback) {
     $this->add_route('GET', $path, $callback);
   }
 
   // Add POST routes
-  public function post($path, $callback)
-  {
+  public function post($path, $callback) {
     $this->add_route('POST', $path, $callback);
   }
 
   // Add a resource
-  public function resource($path, $callback)
-  {
+  public function resource($path, $callback) {
     $this->add_route('GET',  $path,                     $callback . '@index');    // Index
     $this->add_route('GET',  $path . '/create',         $callback . '@create');   // Create
     $this->add_route('POST', $path,                     $callback . '@store');    // Store
@@ -31,21 +28,18 @@ class Router
   }
 
   // Try to find a matching route
-  public function match()
-  {
+  public function match() {
     $server_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
     $server_uri    = rtrim(filter_input(INPUT_SERVER, 'REQUEST_URI'), '/');
 
-    foreach ($this->routes[$server_method] as $path => $callback)
-    {
+    foreach ($this->routes[$server_method] as $path => $callback) {
       // Reformat the path into proper regex
       $path = preg_replace(
         ['/\//', '/\{:int\}/', '/\{:string\}/'],
         ['\\/', '([0-9]+)', '([A-Za-z0-9\-\_]+)'], $path);
 
       // Match the routes path with the server URI
-      if (preg_match('/^\/'. $path . '$/i', $server_uri, $matches))
-      {
+      if (preg_match('/^\/'. $path . '$/i', $server_uri, $matches)) {
         $this->dispatch($matches, $callback);
         return true;
       }
@@ -55,10 +49,8 @@ class Router
   }
 
   // Call the found matching callback
-  private function dispatch($matches, $callback)
-  {
-    if (is_callable($callback))
-    {
+  private function dispatch($matches, $callback) {
+    if (is_callable($callback)) {
       exit('The callback is required to be a string');
     }
     
@@ -69,8 +61,7 @@ class Router
     $c_inst = new $c_name;
 
     // Check user privileges
-    if (Registry::get('auth') !== null && in_array($method, Registry::get('auth')))
-    {
+    if (Registry::get('auth') !== null && in_array($method, Registry::get('auth'))) {
       if (!Auth::logged_in()) {
         exit('You need to be logged in to access this page');
       }
@@ -80,8 +71,7 @@ class Router
   }
 
   // Add a route
-  private function add_route($method, $path, $callback)
-  {
+  private function add_route($method, $path, $callback) {
     $this->routes[$method][$path] = $callback;
   }
 }

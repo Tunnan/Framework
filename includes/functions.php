@@ -1,8 +1,7 @@
 <?php
 
 // Debug a variable in a more readable way
-function debug($var)
-{
+function debug($var) {
   $trace = debug_backtrace();
   $output = '<pre><p style="color:#CD3F37;">' . 
     $trace[0]['file'] . ', line ' . $trace[0]['line'] . '</p>' . 
@@ -12,21 +11,18 @@ function debug($var)
 }
 
 // Generate a CSRF token input field
-function csrf()
-{
+function csrf() {
   return '<input type="hidden" name="csrf" value="'. $_SESSION['token'] . '"/>';
 }
 
 // Verify the CSRF token with the value 
 // given by the hidden post field
-function csrf_verify($token)
-{
+function csrf_verify($token) {
   return $_SESSION['token'] === $token;
 }
 
 // Redirect to another view
-function redirect($path)
-{
+function redirect($path) {
   header('Location: /' . $path);
   exit;
 }
