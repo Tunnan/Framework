@@ -8,17 +8,14 @@ use Tunnan\Framework\Includes\Registry;
 use Tunnan\Framework\Includes\Flash;
 use Tunnan\Framework\App\Models\User;
 
-class UserController
-{
+class UserController {
   // Set some hooks
-  public function __construct()
-  {
+  public function __construct() {
     Registry::set('auth', ['edit']);
   }
 
   // Index
-  public function index()
-  {
+  public function index() {
     return new View('users.index', [
       'users' => User::get(),
       'messages' => Flash::get()
@@ -26,23 +23,19 @@ class UserController
   }
 
   // Create
-  public function create()
-  {
+  public function create() {
     Auth::is_admin() ?: exit('You need to have admin privileges to access this page');
     return new View('users.create');
   }
 
   // Store
-  public function store()
-  {
+  public function store() {
     User::create($_POST['name']) ? redirect('users') : debug('Something went wrong. Unique field?');
   }
   
   // Show
-  public function show($id)
-  {
-    if (Auth::check($id))
-    {
+  public function show($id) {
+    if (Auth::check($id)) {
       debug('Hey, this is you!');
     }
     
@@ -50,8 +43,7 @@ class UserController
   }
 
   // Edit
-  public function edit($id)
-  {
+  public function edit($id) {
     Auth::check($id) ?: exit('You are not allowed to edit other users');
 
     return new View('users.edit', [
@@ -60,8 +52,7 @@ class UserController
   }
 
   // Update
-  public function update($id)
-  {
+  public function update($id) {
     User::update([
       'id' => $id, 'username' => $_POST['username']
     ]);
@@ -70,14 +61,12 @@ class UserController
   }
   
   // Destroy
-  public function destroy($id)
-  {
+  public function destroy($id) {
     debug('Destroy');
   }
 
   // Login
-  public function login()
-  {
+  public function login() {
     // Temporary login
     $_SESSION['uid'] = 1;
 
@@ -86,11 +75,9 @@ class UserController
   }
 
   // Logout
-  public function logout()
-  {
+  public function logout() {
     // Temporary logout
-    if (isset($_SESSION[SESSION_USER_ID]))
-    {
+    if (isset($_SESSION[SESSION_USER_ID])) {
       unset($_SESSION[SESSION_USER_ID]);
     }
 

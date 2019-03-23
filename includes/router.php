@@ -51,7 +51,7 @@ class Router {
   // Call the found matching callback
   private function dispatch($matches, $callback) {
     if (is_callable($callback)) {
-      exit('The callback is required to be a string');
+      throw new \Exception('The callback is required to be a string');
     }
     
     array_shift($matches);
