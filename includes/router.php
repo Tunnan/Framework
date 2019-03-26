@@ -34,8 +34,10 @@ class Router {
 
     // We don't want to trim the slash from the welcome page
     if ($server_uri != '/') {
-      $server_uri = rtrim($server_uri);
+      $server_uri = rtrim($server_uri, '/');
     }
+
+    debug($server_uri);
 
     foreach ($this->routes[$server_method] as $path => $callback) {
       // Reformat the path into proper regex
